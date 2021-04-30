@@ -1,0 +1,95 @@
+﻿<Window x:Class="TestProgram.Views.AddAndEditAnsverWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:VM="clr-namespace:TestProgram.Converter"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:Views="clr-namespace:TestProgram.MyControls"
+        mc:Ignorable="d"
+        x:Name="MWin"
+        Title="AddAndEditAnsverWindow" Height="650" Width="800">
+    <Window.Resources>
+        <VM:MyConverter x:Key="MyConverter"/>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </Window.Resources>
+     
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name Theme"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" IsReadOnly="True" Margin="10,10,10,10" Height="Auto" Text="{Binding SelectedTheme.Name,Mode=TwoWay}" x:Name="LTheme"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Name Question" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" IsReadOnly="True" Margin="10,10,10,10" Height="Auto" Text="{Binding SelectedQuestion.Name,Mode=TwoWay}" TextWrapping="Wrap"
+     VerticalScrollBarVisibility="Visible"
+     AcceptsReturn="True"  x:Name="LQuestion"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Enter Name Ansver" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1"  TextWrapping="Wrap" Margin="10,10,10,10" Height="Auto"
+     VerticalScrollBarVisibility="Visible"
+     AcceptsReturn="True"  Text="{Binding AddSelectedAnsver.Name , Mode=TwoWay}"  x:Name="tbAnsver" />
+            
+            <Label Grid.Row="3" Grid.Column="0" Content="Ansver" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <RadioButton x:Name="rbCorrect"    IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">
+                    <RadioButton.Content >
+                        <Label Content="Correct"/>
+                    </RadioButton.Content>
+                </RadioButton>
+                <RadioButton x:Name="rbWrong" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+                    <RadioButton.Content >
+                        <Label Content="Wrong"/>
+                    </RadioButton.Content>
+                </RadioButton>
+            </Grid>
+            <Label Grid.Row="4" Grid.Column="0" Content="Count Ball" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Views:NumUpDown  Grid.Row="4" MinValue="1" Grid.ColumnSpan="2" Value="{Binding AddSelectedAnsver.CountBall, Mode=TwoWay}" MaxValue="10" Step="1" Grid.Column="2" x:Name="NUDAnsver"/>
+            <!--<TextBox Grid.Row="4" Grid.Column="1" x:Name="TbCountBall" FontSize="24" Text="{Binding AddSelectedAnsver.CountBall}"/>-->
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="0" Content="Save" x:Name="bSave" Click="bSave_Click" Command="{Binding SaveAnsverCommand}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MyConverter}">
+                        <Binding ElementName="bSave" Path="Content"/>
+                        <Binding ElementName="rbCorrect" Path="IsChecked"/>
+                        <Binding ElementName="rbWrong" Path="IsChecked"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="0" Content="Cancel" Click="nCancel_Click" x:Name="nCancel" />
+        </Grid>
+    </Grid>
+</Window>

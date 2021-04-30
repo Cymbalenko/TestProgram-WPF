@@ -1,0 +1,79 @@
+﻿<Window x:Class="TestProgram.Views.AddAndEditQuestionWindow"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestProgram.Views"
+        xmlns:VM="clr-namespace:TestProgram.Converter"
+        mc:Ignorable="d"
+        Title="AddAndEditQuestionWindow" Height="350" Width="700" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <VM:MyConverter x:Key="MyConverter"/> 
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="*"/>  
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name Theme" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedTheme.Name,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="LTheme"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Enter Name Ansver" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1"   TextWrapping="Wrap"
+     VerticalScrollBarVisibility="Visible"
+     AcceptsReturn="True"    Text="{Binding AddSelectedQuestion.Name , Mode=TwoWay}" x:Name="tbQuestion"  Margin="0,0,0,0" Height="Auto"   />
+            <Button x:Name="bAddAudio" Grid.Column="0" Grid.Row="2" Content="Add Audio" Command="{Binding OpenFileAudioCommand}"/>
+            <Grid  Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="BPlay" Content="Play" Command="{ Binding MediaPlayerCommand}" CommandParameter="{Binding ElementName=BPlay, Path=Content}" Grid.Column="0" Grid.Row="0"/>
+                <Button x:Name="BPause" Content="Pause" Command="{ Binding MediaPlayerCommand}" CommandParameter="{Binding ElementName=BPause, Path=Content}"  Grid.Column="1" Grid.Row="0"/>
+                <Button x:Name="BStop" Content="Stop" Command="{ Binding MediaPlayerCommand}" CommandParameter="{Binding ElementName=BStop, Path=Content}"  Grid.Column="2" Grid.Row="0"/>
+                <TextBox Grid.Row="1" Grid.Column="0" IsReadOnly="True" VerticalAlignment="Center" Grid.ColumnSpan="3" x:Name="TBAudioPath" Text="{Binding AddSelectedQuestion.AudioPath,  UpdateSourceTrigger=PropertyChanged}" FontSize="14"/>
+            </Grid>
+
+            <Button x:Name="bAddImage" Grid.Column="0" Grid.Row="3" Command="{Binding OpenFileImageCommand}" Content="Add Image"/>
+
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="6*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  x:Name="tbImage"   Stretch="Uniform"  Source="{Binding SelectedBitmap}"/>
+                <Button Grid.Column="1" x:Name="BShow" Command="{Binding OpenFullScreenImageCommand}" Content="Show Image" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="0" Content="Save" x:Name="bSave" Click="bSave_Click" Command="{Binding SaveQuestionCommand}" CommandParameter="{Binding ElementName=bSave, Path=Content}" />
+            <Button Grid.Column="1" Grid.Row="0" Content="Cancel" x:Name="nCancel" Click="nCancel_Click"/>
+        </Grid>
+    </Grid>
+</Window>
